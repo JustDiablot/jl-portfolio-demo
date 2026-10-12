@@ -1,0 +1,961 @@
+@font-face {
+  font-family: "JW Script";
+  src: url("../fonts/JW-Script.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --fond: #ffffff;
+  --encre: #111111;
+  --gris: #555555;
+  --gris-clair: #d8d5cf;
+  --police: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --main: "JW Script", "Segoe Print", "Bradley Hand", cursive; /* police manuscrite de Julie */
+  --marge: clamp(1rem, 4vw, 3rem);
+  --fil-x: clamp(18px, 4vw, 56px);       /* position du fil depuis le bord gauche */
+  --fil-retrait: clamp(64px, 11vw, 150px); /* retrait du contenu à droite du fil */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--fond);
+  color: var(--encre);
+  font-family: var(--police);
+  line-height: 1.55;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  /* Jamais de déformation : si une boîte n'a pas les proportions de l'image,
+     l'image s'y loge entière au lieu d'être étirée ou écrasée. */
+  object-fit: contain;
+}
+
+/* ---------- En-tête (toutes les pages) ---------- */
+.entete {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem var(--marge);
+  background: var(--fond);
+}
+
+.entete a {
+  font-family: var(--main);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  text-decoration: none;
+}
+
+.entete a:hover {
+  text-decoration: underline;
+}
+
+.entete-gauche {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.entete-retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.entete-retour svg {
+  transform: scaleX(-1);
+}
+
+.entete nav {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin-left: auto;
+}
+
+/* Sur l'accueil, le petit nom n'apparaît qu'une fois le grand nom du hero passé */
+.entete-nom {
+  transition: opacity 0.3s ease;
+}
+
+.entete--accueil .entete-nom {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.entete--accueil.entete--defile .entete-nom {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+  min-height: calc(100vh - 4rem);
+  padding: 1rem clamp(1rem, 7vw, 7rem) 3rem;
+}
+
+.hero-illustration {
+  flex: 0 0 auto;
+  max-width: 55%;
+  max-height: 88vh;
+  width: auto;
+  object-fit: contain;
+}
+
+.hero-texte {
+  flex: 1 1 420px;
+  padding-bottom: 1rem;
+}
+
+.hero-nom {
+  font-family: var(--main);
+  font-weight: 400;
+  font-size: clamp(5.5rem, 16vw, 14rem);
+  line-height: 1;
+  margin: 0 0 1rem;
+}
+
+.hero-bio {
+  max-width: 52ch;
+  margin: 0;
+  color: #333;
+}
+
+/* ---------- Fil conducteur ----------
+   Le trait est un SVG généré par commun.js (dessinerFil), posé en absolu à
+   gauche du contenu, et qui se dessine au fil du scroll. */
+.fil {
+  position: relative;
+  padding: 4rem var(--marge) 6rem var(--fil-retrait);
+}
+
+.fil-trace {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.fil-trace path {
+  fill: none;
+  stroke: var(--encre);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rubrique {
+  font-family: var(--main);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 1;
+  margin: 0 0 3rem;
+}
+
+.rubrique:not(:first-child) {
+  margin-top: 8rem;
+}
+
+.sous-rubrique {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  margin-top: 6rem;
+}
+
+/* ---------- Entrée de projet sur le fil ---------- */
+.entree,
+.tableau {
+  scroll-margin-top: 5rem;
+}
+
+.entree {
+  margin-bottom: clamp(4rem, 9vw, 7rem);
+}
+
+.livre {
+  scroll-margin-top: 14rem;
+}
+
+.entree-titre {
+  display: inline-block;
+  margin-bottom: 1.2rem;
+  text-decoration: none;
+}
+
+.entree-titre img {
+  max-height: clamp(56px, 8vw, 100px);
+  max-width: min(380px, 100%);
+  width: auto;
+  object-fit: contain;
+}
+
+.entree-titre span {
+  font-family: var(--main);
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1;
+}
+
+.entree-titre:hover span {
+  text-decoration: underline;
+}
+
+.entree-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.6rem, 1.5vw, 1.2rem);
+  text-decoration: none;
+}
+
+.entree-images img {
+  /* hauteur plafonnée plutôt qu'imposée : une image trop large pour l'écran
+     rétrécit en gardant ses proportions */
+  width: auto;
+  height: auto;
+  max-height: clamp(120px, 17vw, 230px);
+}
+
+.entree-titre img,
+.entree-images img {
+  transition: opacity 0.25s ease;
+}
+
+.entree-titre:hover img,
+.entree-images:hover img {
+  opacity: 0.85;
+}
+
+/* ---------- Carnets ---------- */
+.carnets {
+  margin-bottom: 4rem;
+}
+
+.carnets-scene {
+  --ecart: min(250px, 27vw);
+  position: relative;
+  height: clamp(300px, 40vw, 420px);
+  max-width: 900px;
+  margin: 0 auto;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.livre {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transform: translate(-50%, -50%) translateX(var(--x, 0)) rotate(var(--r, 0deg)) scale(var(--s, 1));
+  transition: transform 0.6s cubic-bezier(0.3, 0.7, 0.2, 1), filter 0.6s ease;
+}
+
+.livre img {
+  width: auto;
+  height: clamp(130px, 18vw, 220px); /* même hauteur pour les trois livres */
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.18));
+  pointer-events: none;
+}
+
+.livre-nom {
+  display: block;
+  max-width: 13em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.8rem;
+  font-size: 0.8rem;
+  text-align: center;
+  transition: opacity 0.4s ease;
+}
+
+.livre[data-place="0"] {
+  --x: 0px;
+  --r: -2deg;
+  --s: 1.15;
+  z-index: 3;
+}
+
+.livre[data-place="-1"] {
+  --x: calc(var(--ecart) * -1);
+  --r: -11deg;
+  --s: 0.82;
+  z-index: 2;
+}
+
+.livre[data-place="1"] {
+  --x: var(--ecart);
+  --r: 9deg;
+  --s: 0.82;
+  z-index: 2;
+}
+
+.livre:not([data-place="0"]) {
+  filter: saturate(0.6);
+}
+
+.livre:not([data-place="0"]) .livre-nom {
+  opacity: 0.55;
+}
+
+.carnets-commandes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--gris);
+}
+
+.carnets-commandes button {
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--encre);
+  padding: 0.3rem 0.4rem;
+}
+
+.carnets-commandes svg {
+  width: 30px;
+  height: auto;
+  overflow: visible;
+}
+
+.carnets-commandes path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.carnets-prec svg {
+  transform: scaleX(-1);
+}
+
+/* ---------- Tableaux ---------- */
+.tableaux {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 4.5rem) clamp(1.2rem, 3vw, 2.5rem);
+}
+
+.tableau {
+  text-decoration: none;
+}
+
+.tableau-images {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+/* Images montrées entières, à leur format (comme sur la maquette) : rien n'est recadré */
+.tableau-images img {
+  width: 100%;
+}
+
+.tableau-images img:first-child {
+  grid-row: 1 / 3;
+}
+
+.tableau-nom {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+}
+
+.tableau:hover .tableau-nom {
+  text-decoration: underline;
+}
+
+/* ---------- Page projet ---------- */
+.fiche {
+  padding: 2rem var(--marge) 5rem;
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.fiche-haut {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: start;
+  margin-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+.fiche-titre {
+  margin: 0;
+  font-family: var(--main);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4.5rem);
+  line-height: 1;
+}
+
+.fiche-titre img {
+  max-height: 150px;
+  max-width: 100%;
+  width: auto;
+}
+
+.fiche-texte p {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+  font-size: 0.95rem;
+}
+
+.fiche-lien {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-family: var(--main);
+  font-size: 1.6rem;
+}
+
+.fiche-images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
+}
+
+.fiche-images img {
+  width: 100%;
+}
+
+.fiche-images .large {
+  grid-column: 1 / -1;
+}
+
+.fiche-images .paire {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.paire img:first-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.paire img:last-child {
+  flex: 0.45 1 0;
+  min-width: 0;
+}
+
+.suite {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 5rem;
+  font-family: var(--main);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.suite a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  line-height: 1.05;
+  text-decoration: none;
+}
+
+/* La flèche est centrée sur la hauteur du nom (au milieu quand il passe
+   sur plusieurs lignes). */
+.suite-fleche {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  height: 1.05em;
+}
+
+.suite-fleche svg {
+  width: 1.05em;
+  height: auto;
+  overflow: visible;
+}
+
+.suite-fleche path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.suite-prec .suite-fleche svg {
+  transform: scaleX(-1);
+}
+
+.suite a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Galerie (carnets, tableaux) : dessins en grand, sans légende ---------- */
+.galerie-images img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 94vh;
+  margin: 0 auto clamp(2rem, 6vh, 4rem);
+}
+
+/* Carnets, d'après la maquette 4 : couverture + nom en haut, dessins deux par ligne */
+.carnet-entete {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+  font-family: var(--police);
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.carnet-entete img {
+  width: auto;
+  height: clamp(90px, 11vw, 140px);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.18));
+}
+
+.galerie-images--carnet .rangee {
+  display: flex;
+  align-items: flex-start; /* chaque dessin garde sa hauteur naturelle, pas étiré à celle de la ligne */
+  gap: clamp(0.8rem, 2vw, 1.6rem);
+  margin-bottom: clamp(0.8rem, 2vw, 1.6rem);
+}
+
+.galerie-images--carnet img {
+  min-width: 0;
+  width: 100%;
+  max-height: none;
+  margin: 0;
+}
+
+/* dessin seul sur la dernière ligne : même largeur qu'une moitié de ligne */
+.galerie-images--carnet .rangee img:only-child {
+  flex: 0 1 50% !important;
+}
+
+/* Texte présent pour les lecteurs d'écran mais pas à l'écran */
+.invisible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .galerie-images--carnet .rangee {
+    flex-direction: column;
+  }
+
+  .galerie-images--carnet .rangee img,
+  .galerie-images--carnet .rangee img:only-child {
+    flex: none !important;
+  }
+}
+
+/* ---------- À propos ---------- */
+.apropos {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem var(--marge) 5rem;
+}
+
+.apropos-photo {
+  position: sticky;
+  top: 5rem;
+  width: 100%;
+}
+
+.apropos h1 {
+  margin: 0 0 1.5rem;
+  font-family: var(--main);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 5rem);
+  line-height: 1;
+}
+
+.apropos h2 {
+  margin: 2.8rem 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.apropos p {
+  margin: 0 0 1rem;
+  max-width: 65ch;
+}
+
+.apropos h3 {
+  margin: 1.4rem 0 0.2rem;
+  font-size: 1rem;
+}
+
+.apropos .detail {
+  margin: 0 0 0.4rem;
+  color: var(--gris);
+  font-size: 0.9rem;
+}
+
+.apropos ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.6rem;
+}
+
+/* ---------- Contact (bas de toutes les pages) ---------- */
+.contact {
+  padding: 4rem var(--marge) 3rem;
+  text-align: center;
+  scroll-margin-top: 4rem;
+}
+
+.contact h2 {
+  margin: 0 0 1.2rem;
+  font-family: var(--main);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  line-height: 1;
+}
+
+.contact p {
+  margin: 0.3rem 0;
+}
+
+.contact a {
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+.contact small {
+  display: block;
+  margin-top: 3rem;
+  color: #888;
+  font-size: 0.75rem;
+}
+
+/* ---------- Écrans étroits ---------- */
+@media (max-width: 900px) {
+  .tableaux {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-illustration {
+    max-width: 80%;
+    max-height: 60vh;
+  }
+
+  .fiche-haut,
+  .apropos {
+    grid-template-columns: 1fr;
+  }
+
+  .apropos-photo {
+    position: static;
+    max-width: 330px;
+  }
+
+  .fiche-images {
+    grid-template-columns: 1fr;
+  }
+
+  .tableaux {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .livre {
+    transition: none;
+  }
+}
+
+/* ---------- Accents dessinés (police manuscrite sans accents, voir accentsMain) ---------- */
+.acc {
+  position: relative;
+  display: inline-block;
+}
+
+.acc::before,
+.acc::after {
+  position: absolute;
+  left: 50%;
+  top: var(--acc-haut, 0.13em);
+  width: 0.055em;
+  min-width: 1.5px;
+  height: 0.2em;
+  border-radius: 1em;
+  background: currentColor;
+}
+
+.acc--maj {
+  --acc-haut: -0.12em;
+}
+
+.acc--aigu::after {
+  content: "";
+  transform: translateX(-30%) rotate(40deg);
+}
+
+.acc--grave::after {
+  content: "";
+  transform: translateX(-70%) rotate(-40deg);
+}
+
+.acc--circ::before,
+.acc--circ::after {
+  content: "";
+  height: 0.15em;
+}
+
+.acc--circ::before {
+  transform: translateX(-95%) rotate(42deg);
+}
+
+.acc--circ::after {
+  transform: translateX(-5%) rotate(-42deg);
+}
+
+.acc--trema::before,
+.acc--trema::after {
+  content: "";
+  width: 0.07em;
+  height: 0.07em;
+  top: calc(var(--acc-haut, 0.16em) + 0.08em);
+}
+
+.acc--trema::before {
+  transform: translateX(-160%);
+}
+
+.acc--trema::after {
+  transform: translateX(80%);
+}
+
+.acc--cedille::after {
+  content: "";
+  top: auto;
+  bottom: 0.08em;
+  height: 0.14em;
+  transform: translateX(-30%) rotate(25deg);
+}
+
+.hors-police {
+  font-family: var(--police);
+  font-size: 0.7em;
+}
+
+/* ---------- Images agrandissables (pages projet) ---------- */
+.agrandissable {
+  cursor: zoom-in;
+  transition: transform 0.45s ease;
+}
+
+.agrandissable:hover,
+.agrandissable:focus-visible {
+  transform: scale(1.025);
+}
+
+.agrandissable:focus-visible {
+  outline: 1px solid var(--encre);
+  outline-offset: 4px;
+}
+
+.visionneuse {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* marges latérales fixes : les flèches restent sur les bords, hors de l'œuvre */
+  padding: 3.5rem clamp(3.5rem, 7vw, 6rem) 2rem;
+  background: var(--fond);
+  touch-action: pan-y;
+}
+
+.visionneuse[hidden] {
+  display: none;
+}
+
+.visionneuse img {
+  max-width: min(100%, 1600px);
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  object-fit: contain;
+  animation: apparition 0.25s ease;
+}
+
+@keyframes apparition {
+  from { opacity: 0; transform: scale(0.97); }
+}
+
+.visionneuse button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--encre);
+  padding: 0.3rem 0.6rem;
+}
+
+.visionneuse-fermer {
+  position: absolute;
+  top: 0.8rem;
+  right: var(--marge);
+  font-family: var(--main);
+  font-size: 1.8rem;
+}
+
+.visionneuse-fermer:hover {
+  text-decoration: underline;
+}
+
+.visionneuse-fleche {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0.8rem !important;
+}
+
+.visionneuse-prec {
+  left: clamp(0.4rem, 2vw, 1.8rem);
+}
+
+.visionneuse-suiv {
+  right: clamp(0.4rem, 2vw, 1.8rem);
+}
+
+.visionneuse-fleche svg {
+  width: clamp(30px, 3vw, 42px);
+  height: auto;
+  overflow: visible;
+}
+
+.visionneuse-fleche path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.visionneuse-prec svg {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 700px) {
+  .visionneuse-fleche {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agrandissable,
+  .visionneuse img {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* ---------- Pages projet : liens précédent / suivant fixés à mi-hauteur sur les côtés ---------- */
+.fiche--cotes {
+  padding-left: clamp(7rem, 13vw, 12rem);
+  padding-right: clamp(7rem, 13vw, 12rem);
+}
+
+.suite--cotes a {
+  position: fixed;
+  top: 50%;
+  z-index: 40;
+  width: clamp(6.5rem, 11vw, 10.5rem);
+  margin-top: -0.7rem; /* la première ligne est centrée sur la mi-hauteur, un nom long descend */
+  line-height: 1.05;
+}
+
+.suite--cotes .suite-prec {
+  left: clamp(0.6rem, 1.5vw, 1.5rem);
+}
+
+.suite--cotes .suite-suiv {
+  right: clamp(0.6rem, 1.5vw, 1.5rem);
+  justify-content: flex-end;
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .fiche--cotes {
+    padding-left: var(--marge);
+    padding-right: var(--marge);
+  }
+
+  .suite--cotes a {
+    position: static;
+    display: inline-flex;
+    width: auto;
+    margin-top: 0;
+  }
+
+}

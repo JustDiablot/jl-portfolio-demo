@@ -1,0 +1,149 @@
+// Contenu du portfolio : projets graphiques, explorations, carnets, tableaux.
+// Les images sont dans images/p/<slug>/ (versions web .webp).
+//   tete   = visuels affichés sur le fil de la page d'accueil
+//   images = visuels de la page dédiée (projet.html?id=<slug>)
+
+const IMG = (slug, names) => names.map((n) => "images/p/" + slug + "/" + n + ".webp");
+
+const PROJETS = [
+  {
+    slug: "lunatik",
+    titre: "Lunatik",
+    logo: "images/p/lunatik/tete-logo-lunatik-tete-de-page.webp",
+    tete: IMG("lunatik", ["tete-gvuhjk", "tete-jkhgfy"]),
+    // "1" et "1 en plus petit à côté" sont affichés côte à côte (paire)
+    images: IMG("lunatik", ["1", "1-en-plus-petit-a-cote", "2", "3", "4", "5", "6", "7", "8", "ioutyredufgioh"]),
+    paires: [[0, 1]],
+    texte: [
+      "LUNATIK est un projet d'édition présentant le portrait d’une personne occupant une place particulière dans ma vie : Luna. Le titre est un jeu de mot entre le prénom Luna et l'adjectif lunatique. Le projet cherche à retranscrire son univers, sa personnalité et différents aspects de son identité à travers une succession de visuels et détails.",
+      "L'identité visuelle s’inspire du travail du studio Design Ranch pour The Women’s Foundation, We Work for Change, 25th Anniversary.",
+      "L’édition a été entièrement conçue sur Photoshop, Illustrator et InDesign. La recherche et la composition des différents éléments graphiques m'ont permis de construire un univers visuel semblable à celui de Luna en variant les supports : QR codes, textes, photographies, illustrations vectorisées..",
+      "Un projet riche qui m'a permis d'unifier authenticité, amour et design graphique."
+    ]
+  },
+  {
+    slug: "vivienne-westwood",
+    titre: "Vivienne Westwood",
+    logo: "images/p/vivienne-westwood/tete-logo-vivienne-tete-de-page.webp",
+    tete: IMG("vivienne-westwood", ["tete-camscanner-08-10-2026-16.09-2", "tete-camscanner-08-10-2026-16.09-1"]),
+    images: IMG("vivienne-westwood", ["1", "2", "3", "4", "5", "6", "7", "8", "9"]),
+    texte: [
+      "Lors d’un projet scolaire, j’ai imaginé un événement de défilé en hommage à Vivienne Westwood. J’ai tout d’abord réalisé différentes planches de recherches afin d’explorer son univers, ses références et les éléments caractéristiques de son identité.",
+      "J’ai ensuite créé un flyer ainsi qu’un livret regroupant des dessins en perspective. J’ai choisi de mettre en avant Vivienne Westwood pour son approche audacieuse, engagée et anticonformiste, ainsi que pour sa capacité à mêler création et revendication.",
+      "Ce projet complet m’a permis de mobiliser différentes compétences, notamment le dessin, la composition et le design graphique, tout en explorant la création de supports liés à la communication événementielle."
+    ]
+  },
+  {
+    slug: "o-marmites-du-monde",
+    titre: "Ô Marmites du Monde",
+    logo: "images/p/o-marmites-du-monde/tete-logo-tete-marmites.webp",
+    tete: IMG("o-marmites-du-monde", ["tete-1", "tete-repas-du-09102026"]),
+    images: IMG("o-marmites-du-monde", ["1", "tete-fjbzk", "2", "3-plan-de-travail-illustrator", "inspirations", "img-1327", "5", "5.2", "6", "4", "repas-du-09.10.2026", "repas-du-09.10-2"]),
+    texte: [
+      "Dans le cadre d’un projet d’innovation sociale, j’ai développé une identité visuelle pour l’association Ô Marmites du Monde, basée à Évry-Courcouronnes. L’association réunit un groupe de femmes qui prépare des repas solidaires destinés à des personnes en situation de précarité.",
+      "J’ai proposé un logo, des motifs graphiques en lien avec la cuisine du monde et différents éléments visuels destinés à habiller les lieux lors des repas. L’objectif était de créer une identité visuelle propre à l’association, tout en imaginant des solutions de décoration modulables et facilement déplaçables.",
+      "J’ai opté pour une identité aux lignes fines et aux traits faits à la main, ainsi que pour des couleurs chaudes, afin de rappeler les valeurs humaine et conviviale de l'évènement.",
+      "Je me suis inspirée de l’univers visuel de « Voyage en cuisine » d’ARTE, notamment pour ses illustrations simples, dessinées à la main et en aplats monochromes. J’ai repris cette approche pour créer des visuels épurés, lisibles et chaleureux, avec des lignes fines et des couleurs chaudes."
+    ]
+  },
+  {
+    slug: "lenny-et-julie",
+    titre: "Lenny et Julie",
+    logo: "images/p/lenny-et-julie/tete-logo-julie-lenny-tet-de-page.webp",
+    tete: IMG("lenny-et-julie", ["tete-camscanner-08-10-2026-16.18-4", "tete-camscanner-08-10-2026-16.18-3"]),
+    images: IMG("lenny-et-julie", ["img-8441", "img-8442", "img-8443", "img-8444", "img-8445", "img-8446", "img-8447", "img-8448", "img-8449", "img-8450", "img-8454", "img-8455", "img-8456", "img-8457", "img-8458", "img-8460", "img-8461"]),
+    texte: [
+      "Cette collection de deux objets éditoriaux est composée de livrets de souvenirs personnels réunissant photographies, textes et compositions graphiques. L’objectif était de créer des supports permettant d’immortaliser des souvenirs et des moments importants à travers une identité visuelle propre à chacun des livrets.",
+      "Entièrement réalisés avec la suite Adobe, notamment Photoshop, Illustrator et InDesign, ce projet m’a permis d’explorer différentes techniques de composition, de mise en page et de traitement de l’image.",
+      "J’ai choisi de structurer les livrets autour des mois de l’année et des différents événements, afin de créer une progression chronologique et de permettre une immersion dans chaque souvenir."
+    ]
+  },
+  {
+    slug: "welcome-party",
+    titre: "Welcome Party",
+    logo: "images/p/welcome-party/tete-logo.webp",
+    tete: IMG("welcome-party", ["tete-capture-d-ecran-2026-02-28-170311", "tete-ijogyut"]),
+    images: IMG("welcome-party", ["1", "2.1", "2.2", "2.3", "2.4", "2.5", "3", "4", "5", "5.2", "6", "7"]),
+    pdf: "docs/compte-rendu-welcome-party.pdf",
+    texte: [
+      "À l’occasion de la Welcome Party 2025, un événement destiné aux nouveaux étudiants d’Évry-Courcouronnes, notre classe de DN MADE a participé à un stand ludique pour leur faire découvrir la ville. Le projet s’articulait autour de quatre thématiques : l’architecture, l’art urbain, la musique et le sport.",
+      "Après plusieurs recherches et une exploration de la ville, nous avons développé différents supports graphiques pour accompagner les parcours. Avec Anais Foenkinos, j’ai participé à la création de la charte graphique. J’ai notamment dessiné les pictogrammes au feutre avant de les vectoriser sur Illustrator.",
+      "J’ai également participé à la conception du livret consacré à l’architecture et d’un flyer donnant accès aux parcours numériques. Ce projet m’a permis de renforcer ma maîtrise de la suite Adobe, tout en développant ma capacité à travailler au sein d’une équipe et à confronter mes réalisations au public."
+    ]
+  },
+  {
+    slug: "grand-gala",
+    titre: "Le Grand Gala",
+    logo: "images/p/grand-gala/tete-logo-gala-tete.webp",
+    tete: IMG("grand-gala", ["tete-img-20251122-191225", "tete-diuhvidh"]),
+    images: IMG("grand-gala", ["1", "2", "4", "5", "6", "9"]),
+    pdf: "docs/compte-rendu-grand-gala.pdf",
+    texte: [
+      "Le Grand Gala « Vous déroule son tapis rouge » est un événement solidaire organisé chaque année depuis 15 ans à Évry-Courcouronnes, destiné aux habitants de la ville en situation de précarité. L’objectif est de leur offrir un moment de partage et de leur permettre de vivre une véritable soirée de gala, autour du thème du glamour.",
+      "Kinza, coordinatrice culturelle des maisons de quartier des Épinettes et des Aunettes, a fait appel à notre classe pour imaginer l’aménagement et la décoration de la salle. Nous avons conçu une ambiance lumineuse, une scène, une arche d’entrée, un photobooth ainsi que différents éléments graphiques : menus, portes-noms et programme. L’univers s’inspirait notamment du cinéma, d’Hollywood, du Met Gala et des Oscars, avec une dominante rouge, des touches dorées et un mélange entre ancien et contemporain.",
+      "Avec Anaïs Foenkinos, j’ai pris en charge la création de la charte graphique du projet à partir du moodboard réalisé collectivement. Nous avons travaillé sur les typographies, les couleurs et le logo. J’ai également participé à la création du menu, en veillant à reprendre les éléments de la charte graphique.",
+      "Ce projet m’a permis de développer mes compétences en travail d’équipe et en gestion de projet, tout en renforçant ma maîtrise de la suite Adobe, de la mise en page et de l’impression. Enfin, la dimension solidaire du projet m’a permis de comprendre comment le graphisme et l’événementiel peuvent contribuer à créer une expérience valorisante pour un public."
+    ]
+  }
+];
+
+// Explorations présentées comme les projets (même fil, même page dédiée), sans logo.
+const EXPLORATIONS = [
+  {
+    slug: "augmentation-plastique",
+    titre: "Augmentation plastique d'une photo",
+    tete: IMG("augmentation-plastique", ["photo-principale", "3", "5"]),
+    images: IMG("augmentation-plastique", ["photo-principale", "1", "2", "3", "4", "5", "6"]),
+    texte: [
+      "À partir d’une photographie d’un espace intérieur, j’ai mené une recherche plastique par augmentation progressive de l’image. Chaque étape consiste à extraire, amplifier et transformer certains éléments visuels, comme les formes, les lignes, les volumes et les couleurs, afin d’en explorer les possibilités graphiques. Les expérimentations passent du dessin et de la simplification à la superposition, la déformation et l’intensification chromatique, faisant progressivement évoluer l’image tout en conservant certains de ses repères initiaux."
+    ]
+  },
+  {
+    slug: "paysage-onirique",
+    titre: "Créer un paysage onirique",
+    tete: IMG("paysage-onirique", ["paysag-e1", "paysag-e2", "paysag-e3"]),
+    images: IMG("paysage-onirique", ["camscanner-06-03-2026-12.34-12", "camscanner-08-10-2026-19.29-1", "camscanner-08-10-2026-19.29-2", "camscanner-08-10-2026-19.29-3", "camscanner-08-10-2026-19.29-4", "camscanner-08-10-2026-19.29-5", "camscanner-08-10-2026-19.29-6", "camscanner-08-10-2026-19.29-7", "paysag-e1", "paysag-e2", "paysag-e3"]),
+    texte: [
+      "L’objectif de cette expérimentation était de se familiariser avec la technique de la linogravure à travers les thèmes du minéral et de la végétation. J’ai créé différentes matrices en explorant les formes, textures et motifs, puis je les ai combinées pour réaliser trois compositions. Cette recherche m’a permis d’expérimenter les possibilités de la technique, notamment la répétition, la superposition, le rythme et la variation des formes."
+    ]
+  }
+];
+
+// Carnets : couverture détourée + dessins affichés en grand (galerie.html?id=<slug>).
+const CARNETS = [
+  {
+    slug: "carnet-observations",
+    titre: "carnet d’observations",
+    couverture: "images/p/carnets/observations.webp",
+    images: IMG("carnet-observations", ["1", "2", "3", "4", "5", "7", "8", "9", "10", "11", "12", "13"])
+  },
+  {
+    slug: "carnet-analytique",
+    titre: "carnet de dessins analytiques",
+    couverture: "images/p/carnets/analytique.webp",
+    images: IMG("carnet-analytique", ["livre-dans-mon-petit-coeur", "salon-du-livre-superpositions-et-objets-editoriaux", "packaging", "plv-dispositif-westfield", "vitrine-louis-vuitton-vandome", "vitrine-lv-et-oeelin", "vitrine-chopard", "vitrine-bompard", "vitrine-vacheron-constantin", "croquis-ameliore", "camscanner-07-01-2026-23.07-8"])
+  },
+  {
+    slug: "carnet-recherches",
+    titre: "carnet de recherches graphiques",
+    couverture: "images/p/carnets/recherches.webp",
+    images: IMG("carnet-recherches", ["1", "2", "3", "4", "5", "5.2", "6", "7", "8", "9", "10", "11", "12"])
+  }
+];
+
+// Tableaux : 1 grande image + 2 vignettes sur l'accueil, toutes les images en grand au clic.
+const TABLEAUX = [
+  { slug: "amy-winehouse", titre: "Amy Winehouse", images: IMG("amy-winehouse", ["1", "2-2", "3", "4"]) },
+  { slug: "exploration", titre: "Exploration", images: IMG("exploration", ["1", "2", "3", "4", "5"]) },
+  { slug: "frida-ou-freedom", titre: "Frida ou Freedom", images: IMG("frida-ou-freedom", ["1", "2", "3"]) },
+  { slug: "la-scene-2026", titre: "La scène 2026", images: IMG("la-scene-2026", ["1", "2", "3", "4", "5"]) },
+  { slug: "new-way", titre: "New Way", images: IMG("new-way", ["1", "2", "3", "4"]) },
+  { slug: "rafe", titre: "Rafe", images: IMG("rafe", ["1", "2", "3", "4"]) }
+];
+
+// Recherche d'une entrée par slug, toutes rubriques confondues.
+function trouver(slug) {
+  const fiches = [...PROJETS, ...EXPLORATIONS].map((e) => ({ ...e, type: "projet" }));
+  const galeries = [...CARNETS.map((e) => ({ ...e, type: "carnet" })), ...TABLEAUX.map((e) => ({ ...e, type: "tableau" }))];
+  return [...fiches, ...galeries].find((e) => e.slug === slug);
+}
