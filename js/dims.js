@@ -112,7 +112,7 @@ const DIMS = {
 "images/p/lunatik/7.webp": [1207, 842, "1793650421"],
 "images/p/lunatik/8.webp": [1205, 847, "1793650421"],
 "images/p/lunatik/couple.webp": [991, 700, "1793650421"],
-"images/p/lunatik/edition.webp": [1200, 900, "1793650421"],
+"images/p/lunatik/edition.webp": [1100, 1084, "1793896771"],
 "images/p/lunatik/ioutyredufgioh.webp": [2000, 1054, "1793650421"],
 "images/p/lunatik/tete-gvuhjk.webp": [602, 842, "1793650421"],
 "images/p/lunatik/tete-jkhgfy.webp": [1211, 836, "1793650421"],

@@ -114,15 +114,23 @@ function dessinerFil(conteneur) {
   const phases = [hasard() * 6, hasard() * 6, hasard() * 6];
   // Trait décalé vers le centre (environ 4x plus loin du bord gauche qu'avant),
   // tout en restant à gauche du contenu (retrait --fil-retrait).
-  // 4 fois plus loin du bord que l'ancienne version (min(56, max(18, 4vw))), demande Julie
-  const x0 = Math.min(224, Math.max(36, window.innerWidth * 0.16));
-  const xFil = (y) => x0 + 7 * Math.sin(y / 190 + phases[0]) + 3.5 * Math.sin(y / 67 + phases[1]) + 1.3 * Math.sin(y / 23 + phases[2]);
+  // 4 fois plus loin du bord que l'ancienne version (demande Julie) ; sur grand écran,
+  // l'ensemble fil + projets (1108px) est centré. Même formule que --fil-x dans site.css.
+  const xBase = () => Math.max(36, window.innerWidth * 0.16, (window.innerWidth - 1108) / 2);
+  const xFil = (y) => xBase() + 7 * Math.sin(y / 190 + phases[0]) + 3.5 * Math.sin(y / 67 + phases[1]) + 1.3 * Math.sin(y / 23 + phases[2]);
 
   let svg, traits, branches, hauteur;
 
   function construire() {
     if (svg) svg.remove();
-    hauteur = conteneur.offsetHeight;
+    // Le trait finit sa course sur le titre « me contacter », en bas de page
+    const fin = document.querySelector(".contact h2");
+    const hautFil = conteneur.getBoundingClientRect().top;
+    const yCible = (el) => {
+      const r = el.getBoundingClientRect();
+      return r.top - hautFil + Math.min(r.height / 2, 40);
+    };
+    hauteur = fin ? yCible(fin) : conteneur.offsetHeight;
     svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "fil-trace");
     svg.setAttribute("aria-hidden", "true");
@@ -135,13 +143,16 @@ function dessinerFil(conteneur) {
       pts.push([x, y]);
       pts2.push([x + 0.9 + Math.sin(y / 40) * 0.7, y + 3]);
     }
+    pts.push([xFil(hauteur), hauteur]);
+    pts2.push([xFil(hauteur) + 0.9, hauteur]);
     traits = [ajouter(chemin(pts), 2.3, 1), ajouter(chemin(pts2), 0.8, 0.45)];
 
     // Branches vers chaque projet / rubrique
-    const haut = conteneur.getBoundingClientRect().top;
-    branches = [...conteneur.querySelectorAll("[data-branche]")].map((el) => {
+    const cibles = [...conteneur.querySelectorAll("[data-branche]")];
+    if (fin) cibles.push(fin);
+    branches = cibles.map((el) => {
       const r = el.getBoundingClientRect();
-      const y = r.top - haut + Math.min(r.height / 2, 40);
+      const y = yCible(el);
       const xa = xFil(y);
       const xb = r.left - conteneur.getBoundingClientRect().left - 22;
       const pb = [];
@@ -187,7 +198,9 @@ function dessinerFil(conteneur) {
     if (!svg) return; // pas encore construit (scroll avant le premier tracé)
     const reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const r = conteneur.getBoundingClientRect();
-    const atteint = reduit ? hauteur : Math.min(hauteur, Math.max(0, window.innerHeight * 0.75 - r.top));
+    // tout en bas de la page, le trait est forcément arrivé au bout (même sur un écran bas)
+    const enBas = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+    const atteint = reduit || enBas ? hauteur : Math.min(hauteur, Math.max(0, window.innerHeight * 0.75 - r.top));
     traits.forEach((p) => {
       p.style.strokeDashoffset = p.dataset.long * (1 - atteint / hauteur);
     });

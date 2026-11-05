@@ -14,9 +14,9 @@
   --police: system-ui, -apple-system, "Segoe UI", sans-serif;
   --main: "JW Script", "Segoe Print", "Bradley Hand", cursive; /* police manuscrite de Julie */
   --marge: clamp(1rem, 4vw, 3rem);
-  /* fil 4 fois plus loin du bord qu'avant (même formule que commun.js),
-     contenu décalé d'autant : même écart fil -> projets qu'avant */
-  --fil-x: min(224px, max(36px, 16vw));
+  /* fil 4 fois plus loin du bord qu'avant, ensemble fil + projets (1108px) centré sur
+     grand écran (même formule que commun.js) ; même écart fil -> projets qu'avant */
+  --fil-x: max(36px, 16vw, calc((100vw - 1108px) / 2));
   --fil-retrait: calc(var(--fil-x) + clamp(46px, 6.4vw, 92px));
 }
 
@@ -404,9 +404,10 @@ img {
   max-width: min(760px, 100%);
 }
 
-/* Grand écran : peintures au centre de la page, alignées sur le titre « peintures »
+/* Grand écran : carnets et peintures au centre de la page, alignés sur leur titre
    (sur écran plus étroit, ce décalage les ferait passer sur le fil) */
 @media (min-width: 1200px) {
+  .carnets,
   .tableaux {
     position: relative;
     left: calc((var(--marge) - var(--fil-retrait)) / 2);
@@ -677,8 +678,10 @@ img {
 
 .entree-images--chevauche img + img {
   position: relative;
+  /* couverture à 45° : image plus carrée, donc un peu plus haute pour garder sa taille réelle */
+  max-height: calc(clamp(120px, 17vw, 230px) * 1.2);
   margin-left: clamp(-120px, -8vw, -50px);
-  margin-top: clamp(45px, 6.5vw, 95px);
+  margin-top: clamp(30px, 4.5vw, 65px);
 }
 
 .suite {
@@ -862,7 +865,9 @@ img {
 }
 
 .contact h2 {
-  margin: 0 0 1.2rem;
+  /* largeur du texte : la branche du fil vient s'arrêter juste avant les lettres */
+  width: fit-content;
+  margin: 0 auto 1.2rem;
   font-family: var(--main);
   font-weight: 400;
   font-size: clamp(2.6rem, 6vw, 4rem);
