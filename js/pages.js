@@ -13,7 +13,7 @@ function introuvable(main) {
 //            "seule-gauche" (seule, calée à gauche), "droite" (colonne de droite),
 //            "demi" (colonne de gauche, moitié de sa largeur) ;
 //            pour une ligne : "centre" (ligne moins large, centrée).
-//   gauche : true pour caler à gauche une image seule sur sa ligne.
+//   gauche : true pour caler à gauche une image seule sur sa ligne ; cote : "droit" pour la caler à droite.
 //   Par défaut : grille deux colonnes ; les visuels très larges passent en pleine largeur.
 //   Une ligne prend toute la largeur ; ses images ont la même hauteur.
 const TAILLES = ["grand", "seule", "petit", "demi-centre", "portrait", "seule-gauche", "droite", "demi", "centre"];
@@ -58,6 +58,7 @@ function elementImage(entry) {
   if (taille === "grand") el.classList.add("large");
   else if (TAILLES.includes(taille)) el.classList.add(taille);
   if (o.gauche) el.classList.add("a-gauche");
+  if (o.cote === "droit") el.classList.add("a-droite");
   return el;
 }
 
@@ -233,17 +234,13 @@ function pageGalerie() {
     lienSuite(suiv ? "galerie.html?id=" + suiv.slug : "index.html", suiv ? suiv.titre : "accueil", "suiv")
   );
 
-  if (e.type === "tableau") {
-    // Peintures : texte à droite qui suit le défilement, comme sur les pages projet
-    haut.className = "fiche-aside";
-    const corps = document.createElement("div");
-    corps.className = "fiche-corps";
-    corps.append(imgs, haut);
-    main.append(corps, suite);
-    colonneTexte(corps, haut);
-  } else {
-    main.append(haut, imgs, suite);
-  }
+  // Carnets et peintures : texte à droite qui suit le défilement, comme sur les pages projet
+  haut.className = "fiche-aside";
+  const corps = document.createElement("div");
+  corps.className = "fiche-corps";
+  corps.append(imgs, haut);
+  main.append(corps, suite);
+  colonneTexte(corps, haut);
   main.classList.add("fiche--cotes");
   suite.classList.add("suite--cotes");
   visionneuse(imgs.querySelectorAll("img"));

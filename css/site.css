@@ -653,6 +653,15 @@ img {
   justify-self: start;
 }
 
+.fiche-images img.a-droite {
+  justify-self: end;
+}
+
+/* Exactement la largeur d'une image de la grille à deux colonnes */
+.fiche-images img.demi-centre {
+  width: calc((100% - clamp(1rem, 3vw, 2.5rem)) / 2);
+}
+
 /* Colonne de droite seule (rien à gauche) */
 .fiche-images .droite {
   grid-column: 2;
@@ -761,6 +770,19 @@ img {
   width: auto;
   height: clamp(90px, 11vw, 140px);
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.18));
+}
+
+/* Dans la colonne de droite : moins d'écart, pour que le nom du carnet tienne en entier */
+.fiche-aside .carnet-entete {
+  gap: 1rem;
+}
+
+.fiche-aside .carnet-entete img {
+  flex: 0 0 auto;
+}
+
+.fiche-aside .carnet-entete span {
+  min-width: 0;
 }
 
 .galerie-images--carnet .rangee {
@@ -956,6 +978,10 @@ img {
 
   .fiche-images img.portrait {
     width: 60%;
+  }
+
+  .fiche-images img.demi-centre {
+    width: 100%;
   }
 
   /* Sur mobile : texte au-dessus, puis images (pas de colonne collante) */

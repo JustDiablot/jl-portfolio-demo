@@ -15,12 +15,12 @@ const C = (slug, names, opts) => ({ compo: IMG(slug, names), ...(opts || {}) });
 // Lenny et Julie : même procédé pour les deux livrets (demande Julie) :
 // couverture seule, quatre doubles pages deux par deux, dernière page seule.
 const LENNY_IMAGES = [
-  I("lenny-et-julie", "img-8441", { taille: "seule" }),
+  I("lenny-et-julie", "img-8441", { taille: "seule", gauche: true }),
   ...IMG("lenny-et-julie", ["img-8442", "img-8443", "img-8445", "img-8444"]),
-  I("lenny-et-julie", "img-8446", { taille: "seule" }),
-  I("lenny-et-julie", "img-8447", { taille: "seule" }),
+  I("lenny-et-julie", "img-8446", { taille: "seule", cote: "droit" }),
+  I("lenny-et-julie", "img-8447", { taille: "seule", gauche: true }),
   ...IMG("lenny-et-julie", ["img-8449", "img-8450", "img-8455", "img-8458"]),
-  I("lenny-et-julie", "img-8460", { taille: "seule" })
+  I("lenny-et-julie", "img-8460", { taille: "seule", cote: "droit" })
 ];
 
 const PROJETS = [
@@ -101,7 +101,7 @@ const PROJETS = [
     logo: "images/p/welcome-party/tete-logo.webp",
     tete: IMG("welcome-party", ["2.1", "tete-capture-d-ecran-2026-02-28-170311", "7"]),
     images: [
-      I("welcome-party", "1", { taille: "seule" }),
+      I("welcome-party", "1", { taille: "grand" }),
       // photo 5 seulement dans le trio du stand (évite le doublon)
       I("welcome-party", "4", { taille: "grand" }),
       L("welcome-party", ["2.3", "2.4"], { taille: "centre" }),
@@ -167,7 +167,7 @@ const EXPLORATIONS = [
     tete: IMG("paysage-onirique", ["paysag-e1", "camscanner-08-10-2026-19.29-4", "camscanner-08-10-2026-19.29-1"]),
     images: [
       I("paysage-onirique", "camscanner-06-03-2026-12.34-12", { taille: "demi" }),
-      L("paysage-onirique", ["camscanner-08-10-2026-19.29-5", "camscanner-08-10-2026-19.29-6", "camscanner-08-10-2026-19.29-7"]),
+      L("paysage-onirique", ["tirage-5-envers", "tirage-6-envers", "tirage-7-envers"]),
       ...["2", "3", "1", "4"].map((n) => I("paysage-onirique", "camscanner-08-10-2026-19.29-" + n, { taille: "grand" })),
       L("paysage-onirique", ["paysag-e1", "paysag-e2", "paysag-e3"], { leg: "Paysages oniriques finaux." })
     ],
