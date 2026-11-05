@@ -16,6 +16,8 @@
   --marge: clamp(1rem, 4vw, 3rem);
   /* fil 4 fois plus loin du bord qu'avant, ensemble fil + projets (1108px) centré sur
      grand écran (même formule que commun.js) ; même écart fil -> projets qu'avant */
+  /* air autour des gros titres : en défilant, on ne voit presque que le titre (retour de Julie 05/11) */
+  --ecart-rubrique: 38vh;
   --fil-x: max(36px, 16vw, calc((100vw - 1108px) / 2));
   --fil-retrait: calc(var(--fil-x) + clamp(46px, 6.4vw, 92px));
 }
@@ -115,8 +117,8 @@ img {
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 2rem;
-  /* maquette de Julie : grand dessin sur presque toute la hauteur,
-     nom plus petit posé à hauteur des chaussures, présentation en petit dessous */
+  /* grand dessin sur presque toute la hauteur ; nom et présentation remontés
+     et centrés à côté (retour de Julie du 05/11, remplace la maquette du PDF) */
   min-height: calc(100vh - 4rem);
   padding: 1rem clamp(1rem, 7vw, 7rem) 2.5rem;
   gap: clamp(1rem, 2.5vw, 2.5rem);
@@ -132,7 +134,8 @@ img {
 
 .hero-texte {
   flex: 1 1 360px;
-  padding-bottom: 0.6rem;
+  align-self: center;
+  text-align: center;
 }
 
 /* nom divisé par deux par rapport à l'ancienne version (demande Julie) */
@@ -147,7 +150,7 @@ img {
 /* présentation sur la longueur, environ 3 lignes */
 .hero-bio {
   max-width: min(80ch, 100%);
-  margin: 0;
+  margin: 0 auto;
   font-size: 0.86rem;
   line-height: 1.55;
   color: #333;
@@ -158,8 +161,7 @@ img {
    gauche du contenu, et qui se dessine au fil du scroll. */
 .fil {
   position: relative;
-  /* distance chaussures -> "projets graphiques" x3 par rapport à avant (112px -> 336px) */
-  padding: clamp(8rem, 20.5vw, 18.5rem) var(--marge) 10rem var(--fil-retrait);
+  padding: var(--ecart-rubrique) var(--marge) 10rem var(--fil-retrait);
 }
 
 .fil-trace {
@@ -189,21 +191,19 @@ img {
   /* centré sur la page (et pas seulement dans la colonne à droite du fil) */
   width: fit-content;
   max-width: 100%;
-  margin: 0 auto clamp(6rem, 13.4vw, 12rem);
+  margin: 0 auto var(--ecart-rubrique);
   position: relative;
   left: calc((var(--marge) - var(--fil-retrait)) / 2);
-  /* distance titre -> projets x4 par rapport à avant (3rem -> 12rem) : marge du bas */
 }
 
 .rubrique:not(:first-child) {
-  margin-top: 9rem;
+  margin-top: var(--ecart-rubrique);
 }
 
 /* les sous-rubriques (carnets, peintures) reçoivent le même traitement que les rubriques */
 /* carnets, peintures : police x2 par rapport à avant (2.8rem -> 5.6rem) */
 .sous-rubrique {
   font-size: clamp(2.6rem, 8vw, 5.6rem);
-  margin-top: 8rem;
 }
 
 /* ---------- Entrée de projet sur le fil ---------- */
@@ -900,6 +900,10 @@ img {
 }
 
 @media (max-width: 700px) {
+  :root {
+    --ecart-rubrique: 30vh;
+  }
+
   .hero {
     flex-direction: column;
     align-items: center;
