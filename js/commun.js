@@ -130,7 +130,13 @@ function dessinerFil(conteneur) {
       const r = el.getBoundingClientRect();
       return r.top - hautFil + Math.min(r.height / 2, 40);
     };
-    hauteur = fin ? yCible(fin) : conteneur.offsetHeight;
+    // Le trait vertical s'arrête un peu au-dessus du titre, puis tourne vers lui (rayon du virage)
+    let rayonVirage = 0;
+    if (fin) {
+      const place = fin.getBoundingClientRect().left - conteneur.getBoundingClientRect().left - 22 - xBase();
+      rayonVirage = Math.max(14, Math.min(90, place * 0.6));
+    }
+    hauteur = fin ? yCible(fin) - rayonVirage : conteneur.offsetHeight;
     svg = document.createElementNS(NS, "svg");
     svg.setAttribute("class", "fil-trace");
     svg.setAttribute("aria-hidden", "true");
@@ -153,9 +159,18 @@ function dessinerFil(conteneur) {
     branches = cibles.map((el) => {
       const r = el.getBoundingClientRect();
       const y = yCible(el);
-      const xa = xFil(y);
+      const virage = el === fin;
       const xb = r.left - conteneur.getBoundingClientRect().left - 22;
       const pb = [];
+      // Dernière branche : quart de cercle depuis le bout du trait, d'un seul geste
+      let xa = xFil(y);
+      if (virage) {
+        const x0 = xFil(hauteur);
+        for (let a = 0; a < Math.PI / 2; a += Math.PI / 16) {
+          pb.push([x0 + rayonVirage * (1 - Math.cos(a)), hauteur + rayonVirage * Math.sin(a)]);
+        }
+        xa = x0 + rayonVirage;
+      }
       const n = Math.max(3, Math.round((xb - xa) / 14));
       for (let i = 0; i <= n; i++) {
         const t = i / n;
@@ -168,8 +183,9 @@ function dessinerFil(conteneur) {
         const rr = rayon * (1 + (hasard() - 0.5) * 0.18);
         pb.push([cx + Math.cos(a) * rr, y - Math.sin(a) * rr * 1.1]);
       }
-      const p = ajouter(chemin(pb), 1.7, 1);
-      return { p, y };
+      // même épaisseur que le trait pour le virage ; elle part quand le trait arrive à son bout
+      const p = ajouter(chemin(pb), virage ? 2.3 : 1.7, 1);
+      return { p, y: virage ? hauteur : y };
     });
 
     conteneur.append(svg);
