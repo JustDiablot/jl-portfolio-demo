@@ -68,13 +68,13 @@ const PROJETS = [
     logoFiche: "images/p/o-marmites-du-monde/logo-titre.webp",
     tete: IMG("o-marmites-du-monde", ["tete-1", "4", "repas-du-09.10.2026"]),
     images: [
-      I("o-marmites-du-monde", "img-1327", { taille: "droite", leg: "Choix collaboratif en fonction des différentes propositions des élèves." }),
-      I("o-marmites-du-monde", "voyage-en-cuisine", { taille: "droite", leg: "Mon inspiration principale, Voyage en cuisine." }),
-      I("o-marmites-du-monde", "3-plan-de-travail-illustrator", { taille: "droite", leg: "Mon plan de travail sur Illustrator." }),
-      I("o-marmites-du-monde", "2", { taille: "grand", leg: "Ma proposition." }),
+      I("o-marmites-du-monde", "img-1327", { taille: "droite", leg: "choix collaboratif en fonction des différentes propositions des élèves" }),
+      I("o-marmites-du-monde", "voyage-en-cuisine", { taille: "droite", leg: "mon inspiration principale, Voyage en cuisine" }),
+      I("o-marmites-du-monde", "3-plan-de-travail-illustrator", { taille: "droite", leg: "mon plan de travail sur Illustrator" }),
+      I("o-marmites-du-monde", "2", { taille: "grand", leg: "ma proposition" }),
       I("o-marmites-du-monde", "1", { taille: "seule" }),
-      L("o-marmites-du-monde", ["repas-du-09.10.2026", "repas-du-09.10-2", "repas-du-09.10-3"], { leg: "Repas du 9 octobre 2026 à la maison de quartiers des Aunettes, Évry-Courcouronnes." }),
-      C("o-marmites-du-monde", ["4", "5", "5.2", "6"], { leg: "Mockups réalisés à l'aide de l'IA." })
+      L("o-marmites-du-monde", ["repas-du-09.10.2026", "repas-du-09.10-2", "repas-du-09.10-3"], { leg: "Repas du 9 octobre 2026 à la maison de quartiers des Aunettes, Evry-Courcouronnes" }),
+      C("o-marmites-du-monde", ["4", "5", "5.2", "6"], { leg: "Mockups réalisés à l’aide de l’IA" })
     ],
     texte: [
       "Dans le cadre d’un projet d’innovation sociale, j’ai développé une identité visuelle pour l’association Ô Marmites du Monde, basée à Évry-Courcouronnes. L’association réunit un groupe de femmes qui prépare des repas solidaires destinés à des personnes en situation de précarité.",
@@ -112,7 +112,7 @@ const PROJETS = [
       I("welcome-party", "tete-logo", { taille: "petit" }),
       I("welcome-party", "5.2", { taille: "grand" }),
       I("welcome-party", "flyer", { taille: "grand" }),
-      L("welcome-party", ["7", "6", "5"], { leg: "Stand des DN MADE lors de l'évènement de la Welcome Party, le 2 octobre 2025." })
+      L("welcome-party", ["7", "6", "5"], { leg: "Stand des DNmade lors de l’évènement de la Welcome Party, le 2 octobre 2025" })
     ],
     pdf: "docs/compte-rendu-welcome-party.pdf",
     texte: [
@@ -130,7 +130,7 @@ const PROJETS = [
       L("grand-gala", ["1", "arche"]),
       I("grand-gala", "4", { taille: "grand" }),
       I("grand-gala", "6", { taille: "grand" }),
-      I("grand-gala", "charte-graphique", { taille: "seule", leg: "Charte graphique du Grand Gala" }),
+      I("grand-gala", "charte-graphique", { taille: "seule" }),
       I("grand-gala", "9", { taille: "grand" }),
       I("grand-gala", "menu", { taille: "seule" })
     ],
@@ -154,8 +154,8 @@ const EXPLORATIONS = [
     images: [
       I("augmentation-plastique", "photo-principale", { taille: "seule-gauche" }),
       ...["3", "2", "1", "4"].map((n) => I("augmentation-plastique", n, { taille: "grand" })),
-      I("augmentation-plastique", "5", { taille: "seule", leg: "Exploration des contrastes à la peinture acrylique." }),
-      I("augmentation-plastique", "6", { taille: "seule", leg: "Première couche de peinture acrylique jaune, puis exploration des ombres à la craie grasse." })
+      I("augmentation-plastique", "5", { taille: "seule", leg: "exploration des contrastes à la peinture acrylique" }),
+      I("augmentation-plastique", "6", { taille: "seule", leg: "première couche de peinture acrylique jaune, puis exploration des ombres à la craie grasse" })
     ],
     texte: [
       "À partir d’une photographie d’un espace intérieur, j’ai mené une recherche plastique par augmentation progressive de l’image. Chaque étape consiste à extraire, amplifier et transformer certains éléments visuels, comme les formes, les lignes, les volumes et les couleurs, afin d’en explorer les possibilités graphiques. Les expérimentations passent du dessin et de la simplification à la superposition, la déformation et l’intensification chromatique, faisant progressivement évoluer l’image tout en conservant certains de ses repères initiaux."
@@ -169,7 +169,7 @@ const EXPLORATIONS = [
       I("paysage-onirique", "camscanner-06-03-2026-12.34-12", { taille: "demi" }),
       L("paysage-onirique", ["tirage-5-envers", "tirage-6-envers", "tirage-7-envers"]),
       ...["2", "3", "1", "4"].map((n) => I("paysage-onirique", "camscanner-08-10-2026-19.29-" + n, { taille: "grand" })),
-      L("paysage-onirique", ["paysag-e1", "paysag-e2", "paysag-e3"], { leg: "Paysages oniriques finaux." })
+      L("paysage-onirique", ["paysag-e1", "paysag-e2", "paysag-e3"], { leg: "paysages oniriques finaux" })
     ],
     texte: [
       "L’objectif de cette expérimentation était de se familiariser avec la technique de la linogravure à travers les thèmes du minéral et de la végétation. J’ai créé différentes matrices en explorant les formes, textures et motifs, puis je les ai combinées pour réaliser trois compositions. Cette recherche m’a permis d’expérimenter les possibilités de la technique, notamment la répétition, la superposition, le rythme et la variation des formes."
