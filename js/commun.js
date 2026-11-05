@@ -25,6 +25,12 @@ function entete(accueil) {
     '<nav><a href="apropos.html">à propos</a><a href="#contact">me contacter</a></nav>';
   document.body.prepend(header);
 
+  // Hauteur de l'en-tête collant, pour que le texte des pages projet se cale juste dessous
+  const majHauteur = () => document.documentElement.style.setProperty("--entete-h", header.offsetHeight + "px");
+  majHauteur();
+  window.addEventListener("resize", majHauteur);
+  if (document.fonts) document.fonts.ready.then(majHauteur);
+
   // Accueil : le petit nom apparaît quand le grand nom du hero sort de l'écran
   const grandNom = document.querySelector(".hero-nom");
   if (accueil && grandNom && "IntersectionObserver" in window) {
@@ -106,7 +112,10 @@ function dessinerFil(conteneur) {
   const NS = "http://www.w3.org/2000/svg";
   const hasard = graine(19);
   const phases = [hasard() * 6, hasard() * 6, hasard() * 6];
-  const x0 = Math.min(56, Math.max(18, window.innerWidth * 0.04));
+  // Trait décalé vers le centre (environ 4x plus loin du bord gauche qu'avant),
+  // tout en restant à gauche du contenu (retrait --fil-retrait).
+  // 4 fois plus loin du bord que l'ancienne version (min(56, max(18, 4vw))), demande Julie
+  const x0 = Math.min(224, Math.max(36, window.innerWidth * 0.16));
   const xFil = (y) => x0 + 7 * Math.sin(y / 190 + phases[0]) + 3.5 * Math.sin(y / 67 + phases[1]) + 1.3 * Math.sin(y / 23 + phases[2]);
 
   let svg, traits, branches, hauteur;

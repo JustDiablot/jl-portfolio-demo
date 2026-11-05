@@ -12,6 +12,8 @@ function entreeFil(e) {
   titre.dataset.branche = "";
   if (e.logo) {
     titre.append(image(e.logo, e.titre));
+    // logo presque carré (Marmites) : agrandi pour peser autant que les logos en longueur
+    if (ratio(e.logo) < 1.4) titre.classList.add("entree-titre--carre");
   } else {
     const span = document.createElement("span");
     span.textContent = e.titre;
@@ -19,7 +21,7 @@ function entreeFil(e) {
   }
 
   const imgs = document.createElement("a");
-  imgs.className = "entree-images";
+  imgs.className = "entree-images" + (e.teteChevauche ? " entree-images--chevauche" : "");
   imgs.href = lien;
   imgs.setAttribute("aria-label", e.titre + " : voir le projet");
   e.tete.forEach((src) => imgs.append(image(src, "")));
@@ -124,18 +126,37 @@ function tableaux() {
   const grille = document.createElement("div");
   grille.className = "tableaux";
   TABLEAUX.forEach((t) => {
-    const a = document.createElement("a");
-    a.className = "tableau";
-    a.dataset.slug = t.slug; // pas d'id : sinon le navigateur met le focus et un contour au retour
-    a.href = "galerie.html?id=" + t.slug;
-    const imgs = document.createElement("div");
+    const lien = "galerie.html?id=" + t.slug;
+    const art = document.createElement("article");
+    art.className = "tableau" + (t.collerVignettes ? " tableau--colle" : "");
+    art.dataset.slug = t.slug; // pas d'id : sinon le navigateur met le focus et un contour au retour
+    const imgs = document.createElement("a");
     imgs.className = "tableau-images";
-    t.images.slice(0, 3).forEach((src, i) => imgs.append(image(src, i === 0 ? t.titre : "")));
-    const nom = document.createElement("span");
-    nom.className = "tableau-nom";
-    nom.textContent = t.titre;
-    a.append(imgs, nom);
-    grille.append(a);
+    imgs.href = lien;
+    // titreMasque : œuvre volontairement sans nom, la branche du fil vient alors sur l'image
+    const nomAccessible = t.titreMasque ? "peinture sans titre" : t.titre;
+    imgs.setAttribute("aria-label", nomAccessible + " : voir la peinture");
+    const grande = image(t.images[0], nomAccessible);
+    grande.className = "tableau-grande";
+    const vign = document.createElement("div");
+    vign.className = "tableau-vignettes";
+    t.images.slice(1, 3).forEach((src) => vign.append(image(src, "")));
+    imgs.append(grande, vign);
+    if (t.titreMasque) {
+      imgs.dataset.branche = "";
+    } else {
+      // Même titre relié au fil que les projets
+      const titre = document.createElement("a");
+      titre.className = "entree-titre";
+      titre.href = lien;
+      titre.dataset.branche = "";
+      const nom = document.createElement("span");
+      nom.textContent = t.titre;
+      titre.append(nom);
+      art.append(titre);
+    }
+    art.append(imgs);
+    grille.append(art);
   });
   return grille;
 }
@@ -155,7 +176,6 @@ function accueil() {
 
   const sousTableaux = titreRubrique("peintures", "h3");
   sousTableaux.classList.add("sous-rubrique");
-  sousTableaux.dataset.branche = "";
   fil.append(sousTableaux, tableaux());
 
   accentsMain();

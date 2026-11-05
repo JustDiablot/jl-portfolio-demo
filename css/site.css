@@ -14,8 +14,10 @@
   --police: system-ui, -apple-system, "Segoe UI", sans-serif;
   --main: "JW Script", "Segoe Print", "Bradley Hand", cursive; /* police manuscrite de Julie */
   --marge: clamp(1rem, 4vw, 3rem);
-  --fil-x: clamp(18px, 4vw, 56px);       /* position du fil depuis le bord gauche */
-  --fil-retrait: clamp(64px, 11vw, 150px); /* retrait du contenu à droite du fil */
+  /* fil 4 fois plus loin du bord qu'avant (même formule que commun.js),
+     contenu décalé d'autant : même écart fil -> projets qu'avant */
+  --fil-x: min(224px, max(36px, 16vw));
+  --fil-retrait: calc(var(--fil-x) + clamp(46px, 6.4vw, 92px));
 }
 
 * {
@@ -113,34 +115,41 @@ img {
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 2rem;
+  /* maquette de Julie : grand dessin sur presque toute la hauteur,
+     nom plus petit posé à hauteur des chaussures, présentation en petit dessous */
   min-height: calc(100vh - 4rem);
-  padding: 1rem clamp(1rem, 7vw, 7rem) 3rem;
+  padding: 1rem clamp(1rem, 7vw, 7rem) 2.5rem;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
 }
 
 .hero-illustration {
   flex: 0 0 auto;
-  max-width: 55%;
-  max-height: 88vh;
+  max-width: 42%;
+  max-height: calc(100vh - 8rem);
   width: auto;
   object-fit: contain;
 }
 
 .hero-texte {
-  flex: 1 1 420px;
-  padding-bottom: 1rem;
+  flex: 1 1 360px;
+  padding-bottom: 0.6rem;
 }
 
+/* nom divisé par deux par rapport à l'ancienne version (demande Julie) */
 .hero-nom {
   font-family: var(--main);
   font-weight: 400;
-  font-size: clamp(5.5rem, 16vw, 14rem);
+  font-size: clamp(2.75rem, 8vw, 7rem);
   line-height: 1;
-  margin: 0 0 1rem;
+  margin: 0 0 0.7rem;
 }
 
+/* présentation sur la longueur, environ 3 lignes */
 .hero-bio {
-  max-width: 52ch;
+  max-width: min(80ch, 100%);
   margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.55;
   color: #333;
 }
 
@@ -149,7 +158,8 @@ img {
    gauche du contenu, et qui se dessine au fil du scroll. */
 .fil {
   position: relative;
-  padding: 4rem var(--marge) 6rem var(--fil-retrait);
+  /* distance chaussures -> "projets graphiques" x3 par rapport à avant (112px -> 336px) */
+  padding: clamp(8rem, 20.5vw, 18.5rem) var(--marge) 10rem var(--fil-retrait);
 }
 
 .fil-trace {
@@ -172,18 +182,28 @@ img {
 .rubrique {
   font-family: var(--main);
   font-weight: 400;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  /* police x2 par rapport à avant (4.2rem -> 8.4rem) */
+  font-size: clamp(3rem, 12vw, 8.4rem);
   line-height: 1;
-  margin: 0 0 3rem;
+  text-align: center;
+  /* centré sur la page (et pas seulement dans la colonne à droite du fil) */
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto clamp(6rem, 13.4vw, 12rem);
+  position: relative;
+  left: calc((var(--marge) - var(--fil-retrait)) / 2);
+  /* distance titre -> projets x4 par rapport à avant (3rem -> 12rem) : marge du bas */
 }
 
 .rubrique:not(:first-child) {
-  margin-top: 8rem;
+  margin-top: 9rem;
 }
 
+/* les sous-rubriques (carnets, peintures) reçoivent le même traitement que les rubriques */
+/* carnets, peintures : police x2 par rapport à avant (2.8rem -> 5.6rem) */
 .sous-rubrique {
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
-  margin-top: 6rem;
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  margin-top: 8rem;
 }
 
 /* ---------- Entrée de projet sur le fil ---------- */
@@ -211,6 +231,10 @@ img {
   max-width: min(380px, 100%);
   width: auto;
   object-fit: contain;
+}
+
+.entree-titre--carre img {
+  max-height: clamp(110px, 13vw, 180px);
 }
 
 .entree-titre span {
@@ -251,6 +275,8 @@ img {
 /* ---------- Carnets ---------- */
 .carnets {
   margin-bottom: 4rem;
+  /* sur téléphone, le livre de côté dépassait de l'écran (défilement horizontal) */
+  overflow-x: clip;
 }
 
 .carnets-scene {
@@ -365,40 +391,56 @@ img {
 }
 
 /* ---------- Tableaux ---------- */
+/* Peintures : une œuvre par ligne, centrée (demande Julie) */
 .tableaux {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(2rem, 5vw, 4.5rem) clamp(1.2rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(3rem, 7vw, 6rem);
 }
 
 .tableau {
-  text-decoration: none;
+  width: 100%;
+  max-width: min(760px, 100%);
+}
+
+/* Grand écran : peintures au centre de la page, alignées sur le titre « peintures »
+   (sur écran plus étroit, ce décalage les ferait passer sur le fil) */
+@media (min-width: 1200px) {
+  .tableaux {
+    position: relative;
+    left: calc((var(--marge) - var(--fil-retrait)) / 2);
+  }
+}
+
+/* Amy / New Way : pas d'espace entre les deux petites photos */
+.tableau--colle .tableau-vignettes {
+  gap: 0;
 }
 
 .tableau-images {
-  display: grid;
-  grid-template-columns: 1.7fr 1fr;
+  display: flex;
+  text-decoration: none;
   gap: 0.5rem;
-  align-items: start;
+  align-items: flex-start;
+}
+
+.tableau-grande {
+  flex: 1.7 1 0;
+  min-width: 0;
+}
+
+.tableau-vignettes {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /* Images montrées entières, à leur format (comme sur la maquette) : rien n'est recadré */
 .tableau-images img {
   width: 100%;
-}
-
-.tableau-images img:first-child {
-  grid-row: 1 / 3;
-}
-
-.tableau-nom {
-  display: block;
-  margin-top: 0.7rem;
-  font-size: 0.9rem;
-}
-
-.tableau:hover .tableau-nom {
-  text-decoration: underline;
 }
 
 /* ---------- Page projet ---------- */
@@ -443,6 +485,50 @@ img {
   font-size: 1.6rem;
 }
 
+/* Page projet : images à gauche (défilent), titre + texte à droite (restent en place) */
+.fiche-corps {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(240px, 26%, 360px);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+/* Texte du projet : reste au milieu de l'écran, à droite, pendant que les images défilent.
+   Il occupe toute la hauteur visible sous l'en-tête (plus de titre caché dessous)
+   et s'y centre verticalement ; s'il est plus long que l'écran, il défile dans sa colonne. */
+.fiche-aside {
+  position: sticky;
+  top: var(--entete-h, 4rem);
+  align-self: start;
+  box-sizing: border-box;
+  height: calc(100vh - var(--entete-h, 4rem));
+  display: flex;
+  flex-direction: column;
+  justify-content: safe center;
+  overflow-y: auto;
+  padding: 1rem 0;
+  scrollbar-width: none;
+}
+
+.fiche-aside.fiche-aside--long {
+  position: relative;
+  top: 0;
+  height: auto;
+  overflow: visible;
+}
+
+.fiche-aside .fiche-titre {
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  margin-bottom: 1.1rem;
+}
+
+.fiche-aside .fiche-titre img {
+  /* même taille de logo quelle que soit la largeur de la colonne */
+  max-width: min(100%, 340px);
+  max-height: 120px;
+}
+
 .fiche-images {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -454,25 +540,145 @@ img {
   width: 100%;
 }
 
+/* Lignes : images côte à côte, même hauteur (largeur proportionnelle au format) */
+.fiche-images .rang {
+  grid-column: 1 / -1;
+}
+
+.fiche-images .ligne {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.6rem, 1.5vw, 1.2rem);
+  width: 100%;
+}
+
+.fiche-images .ligne img {
+  min-width: 0;
+}
+
+/* Portrait parmi des paysages (flyer VW) : même présence visuelle que les photos
+   du livret au-dessus, sans paraître deux fois plus gros */
+.fiche-images img.portrait,
+.fiche-images .portrait img {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(34%, 330px);
+}
+
+/* Composition : grande image à gauche (2 rangées), petites à droite */
+.fiche-images .compo {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: clamp(0.6rem, 1.5vw, 1.2rem);
+  align-items: start;
+  width: 100%;
+}
+
+.fiche-images .compo img {
+  width: 100%;
+}
+
+.fiche-images .compo .compo-principale {
+  grid-row: span 2;
+}
+
+.fiche-images .rang.centre {
+  width: min(80%, 900px);
+  justify-self: center;
+}
+
+/* Images avec légende */
+.fiche-images figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fiche-images figcaption {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--gris);
+  text-align: center;
+  max-width: 60ch;
+}
+
+/* Tailles particulières : seul sur une ligne */
 .fiche-images .large {
   grid-column: 1 / -1;
 }
 
-.fiche-images .paire {
+.fiche-images .seule,
+.fiche-images .petit,
+.fiche-images .demi-centre,
+.fiche-images .seule-gauche {
   grid-column: 1 / -1;
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
 }
 
-.paire img:first-child {
-  flex: 1 1 0;
-  min-width: 0;
+.fiche-images img.seule,
+.fiche-images img.petit,
+.fiche-images img.demi-centre {
+  justify-self: center;
 }
 
-.paire img:last-child {
-  flex: 0.45 1 0;
+.fiche-images .seule img,
+.fiche-images img.seule {
+  width: min(65%, 640px);
+}
+
+.fiche-images .petit img,
+.fiche-images img.petit {
+  width: min(32%, 340px);
+}
+
+.fiche-images .demi-centre img,
+.fiche-images img.demi-centre {
+  width: min(50%, 480px);
+}
+
+.fiche-images .seule-gauche {
+  align-items: flex-start;
+}
+
+.fiche-images .seule-gauche img,
+.fiche-images img.seule-gauche {
+  width: min(65%, 640px);
+  justify-self: start;
+}
+
+/* Colonne de droite seule (rien à gauche) */
+.fiche-images .droite {
+  grid-column: 2;
+}
+
+/* Colonne de gauche, moitié de sa largeur */
+.fiche-images .demi {
+  grid-column: 1;
+}
+
+.fiche-images img.demi,
+.fiche-images .demi img {
+  width: 50%;
+}
+
+/* Lunatik : couverture posée par-dessus la double page (maquette Julie) */
+.entree-images--chevauche {
+  align-items: flex-start;
+  gap: 0;
+  /* les deux images restent ensemble (sur téléphone elles rétrécissent au lieu de passer à la ligne) */
+  flex-wrap: nowrap;
+}
+
+.entree-images--chevauche img {
   min-width: 0;
+  max-width: 62%;
+}
+
+.entree-images--chevauche img + img {
+  position: relative;
+  margin-left: clamp(-120px, -8vw, -50px);
+  margin-top: clamp(45px, 6.5vw, 95px);
 }
 
 .suite {
@@ -592,7 +798,8 @@ img {
 /* ---------- À propos ---------- */
 .apropos {
   display: grid;
-  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  /* photo divisée par 4 (moitié de largeur et de hauteur), demande Julie */
+  grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
   gap: clamp(1.5rem, 5vw, 4rem);
   align-items: start;
   max-width: 1100px;
@@ -693,6 +900,7 @@ img {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    min-height: 0;
   }
 
   .hero-illustration {
@@ -707,11 +915,48 @@ img {
 
   .apropos-photo {
     position: static;
-    max-width: 330px;
+    max-width: 190px;
   }
 
   .fiche-images {
     grid-template-columns: 1fr;
+  }
+
+  .fiche-images .droite,
+  .fiche-images .demi {
+    grid-column: 1;
+  }
+
+  .fiche-images .rang.centre {
+    width: 100%;
+  }
+
+  /* mobile : grande image en haut, les trois petites en dessous */
+  .fiche-images .compo {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fiche-images .compo .compo-principale {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .fiche-images img.portrait {
+    width: 60%;
+  }
+
+  /* Sur mobile : texte au-dessus, puis images (pas de colonne collante) */
+  .fiche-corps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fiche-aside {
+    position: static;
+    order: -1;
+    height: auto;
+    overflow: visible;
+    padding: 0;
   }
 
   .tableaux {

@@ -5,6 +5,60 @@ function introuvable(main) {
   main.innerHTML = '<p>Cette page n\'existe pas. <a href="index.html">Retour à l\'accueil</a></p>';
 }
 
+// Une entrée d'image peut être un simple chemin ("images/.../x.webp"),
+// un objet { src, leg, taille, alt } ou une ligne { ligne: [chemins], leg, taille }.
+//   leg    : légende affichée sous l'image (ou sous la ligne)
+//   taille : "grand" (toute la largeur), "seule" (seule sur une ligne, centrée),
+//            "petit" (seule, petite et centrée), "demi-centre" (seule, moitié de la largeur),
+//            "seule-gauche" (seule, calée à gauche), "droite" (colonne de droite),
+//            "demi" (colonne de gauche, moitié de sa largeur) ;
+//            pour une ligne : "centre" (ligne moins large, centrée).
+//   Par défaut : grille deux colonnes ; les visuels très larges passent en pleine largeur.
+//   Une ligne prend toute la largeur ; ses images ont la même hauteur.
+const TAILLES = ["grand", "seule", "petit", "demi-centre", "portrait", "seule-gauche", "droite", "demi", "centre"];
+
+function avecLegende(el, leg) {
+  if (!leg) return el;
+  const fig = document.createElement("figure");
+  const cap = document.createElement("figcaption");
+  cap.textContent = leg;
+  fig.append(el, cap);
+  return fig;
+}
+
+function elementImage(entry) {
+  const o = typeof entry === "string" ? { src: entry } : entry;
+  let el;
+  let taille = o.taille;
+  if (o.compo) {
+    const compo = document.createElement("div");
+    compo.className = "compo";
+    o.compo.forEach((src, k) => {
+      const img = image(src, "");
+      if (k === 0) img.className = "compo-principale";
+      compo.append(img);
+    });
+    el = avecLegende(compo, o.leg);
+    el.classList.add("rang");
+  } else if (o.ligne) {
+    const ligne = document.createElement("div");
+    ligne.className = "ligne";
+    o.ligne.forEach((src) => {
+      const img = image(src, "");
+      img.style.flex = ratio(src) + " 1 0";
+      ligne.append(img);
+    });
+    el = avecLegende(ligne, o.leg);
+    el.classList.add("rang");
+  } else {
+    el = avecLegende(image(o.src, o.alt || ""), o.leg);
+    taille = taille || (ratio(o.src) >= 1.55 ? "grand" : "");
+  }
+  if (taille === "grand") el.classList.add("large");
+  else if (TAILLES.includes(taille)) el.classList.add(taille);
+  return el;
+}
+
 // Lien précédent / suivant (FLECHE_SVG est dans commun.js).
 function lienSuite(href, titre, sens) {
   const a = document.createElement("a");
@@ -21,6 +75,34 @@ function lienSuite(href, titre, sens) {
   return a;
 }
 
+// Colonne de texte à droite : si le texte de Julie ne tient pas en hauteur dans l'écran,
+// on élargit la colonne petit à petit (le texte n'est jamais coupé ni modifié).
+function ajusterColonne(corps, aside) {
+  if (window.matchMedia("(max-width: 700px)").matches) {
+    corps.style.gridTemplateColumns = "";
+    return;
+  }
+  const contenu = () => [...aside.children].reduce((h, el) => h + el.offsetHeight, 0) + 40;
+  const largeurMax = Math.min(640, corps.clientWidth * 0.48);
+  corps.style.gridTemplateColumns = "";
+  aside.classList.remove("fiche-aside--long");
+  let l = aside.clientWidth;
+  while (contenu() > aside.clientHeight && l < largeurMax) {
+    l += 20;
+    corps.style.gridTemplateColumns = "minmax(0, 1fr) " + l + "px";
+  }
+  // écran trop bas même avec la colonne élargie : le texte défile avec la page
+  if (contenu() > aside.clientHeight) aside.classList.add("fiche-aside--long");
+}
+
+function colonneTexte(corps, aside) {
+  const maj = () => ajusterColonne(corps, aside);
+  maj();
+  window.addEventListener("resize", maj);
+  if (document.fonts) document.fonts.ready.then(maj);
+  window.addEventListener("load", maj, { once: true });
+}
+
 function pageProjet() {
   const main = document.querySelector("main");
   const liste = [...PROJETS, ...EXPLORATIONS];
@@ -29,12 +111,14 @@ function pageProjet() {
   const e = liste[i];
   document.title = e.titre + " | Julie Lagos";
 
-  // En haut : titre à gauche, texte sur la même ligne vers le milieu-droite
-  const haut = document.createElement("div");
-  haut.className = "fiche-haut";
+  // Colonne de droite : titre + texte, qui restent en place pendant que
+  // les images défilent à gauche (demande Julie).
+  const aside = document.createElement("aside");
+  aside.className = "fiche-aside";
   const h1 = document.createElement("h1");
   h1.className = "fiche-titre";
-  if (e.logo) h1.append(image(e.logo, e.titre));
+  // logoFiche : logo propre à la page du projet (sinon celui de l'accueil)
+  if (e.logoFiche || e.logo) h1.append(image(e.logoFiche || e.logo, e.titre));
   else h1.textContent = e.titre;
   const texte = document.createElement("div");
   texte.className = "fiche-texte";
@@ -52,26 +136,13 @@ function pageProjet() {
     a.textContent = "en savoir plus";
     texte.append(a);
   }
-  haut.append(h1, texte);
+  aside.append(h1, texte);
 
-  // Images : deux colonnes, les visuels très larges prennent toute la largeur
+  // Images : deux colonnes ; certains visuels prennent toute la largeur,
+  // sont seuls sur une ligne ou côte à côte (lignes), avec une légende éventuelle.
   const imgs = document.createElement("div");
   imgs.className = "fiche-images";
-  const enPaire = new Set((e.paires || []).flat());
-  e.images.forEach((src, j) => {
-    const paire = (e.paires || []).find((p) => p[0] === j);
-    if (paire) {
-      const div = document.createElement("div");
-      div.className = "paire";
-      paire.forEach((k) => div.append(image(e.images[k], "")));
-      imgs.append(div);
-      return;
-    }
-    if (enPaire.has(j)) return;
-    const img = image(src, "");
-    if (ratio(src) >= 1.55) img.classList.add("large");
-    imgs.append(img);
-  });
+  e.images.forEach((entry) => imgs.append(elementImage(entry)));
 
   // Projet précédent / suivant
   const suite = document.createElement("nav");
@@ -83,9 +154,13 @@ function pageProjet() {
     lienSuite(suiv ? "projet.html?id=" + suiv.slug : "index.html#" + e.slug, suiv ? suiv.titre : "accueil", "suiv")
   );
 
-  main.append(haut, imgs, suite);
+  const corps = document.createElement("div");
+  corps.className = "fiche-corps";
+  corps.append(imgs, aside);
+  main.append(corps, suite);
   main.classList.add("fiche--cotes");
   suite.classList.add("suite--cotes");
+  colonneTexte(corps, aside);
   visionneuse(imgs.querySelectorAll("img"));
 }
 
@@ -96,7 +171,10 @@ function pageGalerie() {
   document.title = e.titre + " | Julie Lagos";
 
   // Carnet (maquette 4 de Julie) : petite couverture + nom en haut, dessins deux par ligne.
-  // Tableau : seulement les images, en énorme, sans texte (le titre reste pour les lecteurs d'écran).
+  // Tableau : les images en grand, précédées du nom de l'œuvre.
+  // Dans les deux cas, un texte de présentation est affiché comme sur les projets.
+  const haut = document.createElement("div");
+  haut.className = "fiche-haut";
   const h1 = document.createElement("h1");
   if (e.type === "carnet") {
     h1.className = "carnet-entete";
@@ -104,8 +182,20 @@ function pageGalerie() {
     nom.textContent = e.titre;
     h1.append(image(e.couverture, ""), nom);
   } else {
-    h1.className = "invisible";
+    // titreMasque : œuvre volontairement sans nom (le titre reste pour les lecteurs d'écran).
+    h1.className = "fiche-titre" + (e.titreMasque ? " invisible" : "");
     h1.textContent = e.titre;
+  }
+  haut.append(h1);
+  if (e.texte && e.texte.length) {
+    const texte = document.createElement("div");
+    texte.className = "fiche-texte";
+    e.texte.forEach((t) => {
+      const p = document.createElement("p");
+      p.textContent = t;
+      texte.append(p);
+    });
+    haut.append(texte);
   }
   const imgs = document.createElement("div");
   imgs.className = "galerie-images" + (e.type === "carnet" ? " galerie-images--carnet" : "");
@@ -141,7 +231,17 @@ function pageGalerie() {
     lienSuite(suiv ? "galerie.html?id=" + suiv.slug : "index.html", suiv ? suiv.titre : "accueil", "suiv")
   );
 
-  main.append(h1, imgs, suite);
+  if (e.type === "tableau") {
+    // Peintures : texte à droite qui suit le défilement, comme sur les pages projet
+    haut.className = "fiche-aside";
+    const corps = document.createElement("div");
+    corps.className = "fiche-corps";
+    corps.append(imgs, haut);
+    main.append(corps, suite);
+    colonneTexte(corps, haut);
+  } else {
+    main.append(haut, imgs, suite);
+  }
   main.classList.add("fiche--cotes");
   suite.classList.add("suite--cotes");
   visionneuse(imgs.querySelectorAll("img"));
