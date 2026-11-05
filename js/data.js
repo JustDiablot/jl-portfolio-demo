@@ -32,7 +32,7 @@ const PROJETS = [
     tete: IMG("lunatik", ["tete-jkhgfy", "edition"]),
     teteChevauche: true,
     images: [
-      I("lunatik", "1", { taille: "petit" }),
+      I("lunatik", "1", { taille: "petit", gauche: true }),
       ...IMG("lunatik", ["2", "3", "4", "5", "6", "7", "8", "couple", "ioutyredufgioh"])
     ],
     texte: [
@@ -48,10 +48,11 @@ const PROJETS = [
     logo: "images/p/vivienne-westwood/tete-logo-vivienne-tete-de-page.webp",
     tete: IMG("vivienne-westwood", ["tete-couverture", "tete-vue-de-droite", "tete-vue-du-haut"]),
     images: [
-      I("vivienne-westwood", "1-rogne", { taille: "seule" }),
-      I("vivienne-westwood", "2", { taille: "seule" }),
+      // photos 1 et 7 tournées d'un quart de tour pour que les textes soient droits (retour de Julie)
+      I("vivienne-westwood", "1-tourne", { taille: "demi-centre", gauche: true }),
+      I("vivienne-westwood", "2", { taille: "seule", gauche: true }),
       ...IMG("vivienne-westwood", ["3", "4", "5", "6"]),
-      I("vivienne-westwood", "7-rogne", { taille: "portrait" }),
+      I("vivienne-westwood", "7-tourne", { taille: "demi-centre" }),
       ...IMG("vivienne-westwood", ["8", "9"])
     ],
     texte: [

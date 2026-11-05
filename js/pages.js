@@ -13,6 +13,7 @@ function introuvable(main) {
 //            "seule-gauche" (seule, calée à gauche), "droite" (colonne de droite),
 //            "demi" (colonne de gauche, moitié de sa largeur) ;
 //            pour une ligne : "centre" (ligne moins large, centrée).
+//   gauche : true pour caler à gauche une image seule sur sa ligne.
 //   Par défaut : grille deux colonnes ; les visuels très larges passent en pleine largeur.
 //   Une ligne prend toute la largeur ; ses images ont la même hauteur.
 const TAILLES = ["grand", "seule", "petit", "demi-centre", "portrait", "seule-gauche", "droite", "demi", "centre"];
@@ -56,6 +57,7 @@ function elementImage(entry) {
   }
   if (taille === "grand") el.classList.add("large");
   else if (TAILLES.includes(taille)) el.classList.add(taille);
+  if (o.gauche) el.classList.add("a-gauche");
   return el;
 }
 

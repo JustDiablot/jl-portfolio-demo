@@ -648,6 +648,11 @@ img {
   justify-self: start;
 }
 
+/* Image seule calée à gauche (après les tailles, qui la centrent) */
+.fiche-images img.a-gauche {
+  justify-self: start;
+}
+
 /* Colonne de droite seule (rien à gauche) */
 .fiche-images .droite {
   grid-column: 2;
