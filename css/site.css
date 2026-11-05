@@ -801,8 +801,7 @@ img {
 /* ---------- À propos ---------- */
 .apropos {
   display: grid;
-  /* photo divisée par 4 (moitié de largeur et de hauteur), demande Julie */
-  grid-template-columns: minmax(0, 190px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
   gap: clamp(1.5rem, 5vw, 4rem);
   align-items: start;
   max-width: 1100px;
@@ -920,7 +919,7 @@ img {
 
   .apropos-photo {
     position: static;
-    max-width: 190px;
+    max-width: 330px;
   }
 
   .fiche-images {
